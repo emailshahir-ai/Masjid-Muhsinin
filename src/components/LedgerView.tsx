@@ -23,6 +23,7 @@ import {
 
 interface LedgerViewProps {
   transactions: Transaction[];
+  canManage?: boolean;
   onAddTransaction: () => void;
   onEditTransaction: (tx: Transaction) => void;
   onDeleteTransaction: (tx: Transaction) => void;
@@ -31,6 +32,7 @@ interface LedgerViewProps {
 
 export const LedgerView: React.FC<LedgerViewProps> = ({
   transactions,
+  canManage = true,
   onAddTransaction,
   onEditTransaction,
   onDeleteTransaction,
@@ -205,14 +207,16 @@ export const LedgerView: React.FC<LedgerViewProps> = ({
             <p className="mt-1 text-xs text-slate-500">
               Ubah kata kunci carian atau rekodkan kutipan derma/perbelanjaan baharu.
             </p>
-            <button
-              type="button"
-              onClick={onAddTransaction}
-              className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-emerald-800 px-4 py-2 text-xs font-medium text-white hover:bg-emerald-900"
-            >
-              <Plus className="h-4 w-4" />
-              Rekod Transaksi Baharu
-            </button>
+            {canManage && (
+              <button
+                type="button"
+                onClick={onAddTransaction}
+                className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-emerald-800 px-4 py-2 text-xs font-medium text-white hover:bg-emerald-900"
+              >
+                <Plus className="h-4 w-4" />
+                Rekod Transaksi Baharu
+              </button>
+            )}
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -289,22 +293,26 @@ export const LedgerView: React.FC<LedgerViewProps> = ({
                           >
                             <Receipt className="h-4 w-4" />
                           </button>
-                          <button
-                            type="button"
-                            onClick={() => onEditTransaction(tx)}
-                            title="Sunting rekod"
-                            className="rounded-md p-1.5 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => onDeleteTransaction(tx)}
-                            title="Padam rekod"
-                            className="rounded-md p-1.5 text-slate-500 transition-colors hover:bg-red-50 hover:text-red-700"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
+                          {canManage && (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => onEditTransaction(tx)}
+                                title="Sunting rekod"
+                                className="rounded-md p-1.5 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                              >
+                                <Pencil className="h-4 w-4" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => onDeleteTransaction(tx)}
+                                title="Padam rekod"
+                                className="rounded-md p-1.5 text-slate-500 transition-colors hover:bg-red-50 hover:text-red-700"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </button>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>

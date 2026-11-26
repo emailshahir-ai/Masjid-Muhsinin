@@ -7,7 +7,6 @@ export type PaymentMethod =
   | 'Cek';
 
 export type DonationCategory =
-  | 'Tabung Jumaat'
   | 'Derma Am & Infaq'
   | 'Tabung Pembangunan'
   | 'Tabung Kebajikan & Asnaf'
@@ -107,7 +106,6 @@ export type ActiveTab =
   | 'awan';
 
 export const DONATION_CATEGORIES: DonationCategory[] = [
-  'Tabung Jumaat',
   'Derma Am & Infaq',
   'Tabung Pembangunan',
   'Tabung Kebajikan & Asnaf',

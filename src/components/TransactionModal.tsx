@@ -44,7 +44,8 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   const [time, setTime] = useState<string>(
     new Date().toTimeString().slice(0, 5)
   );
-  const [category, setCategory] = useState<TransactionCategory>('Tabung Jumaat');
+  const [category, setCategory] =
+    useState<TransactionCategory>('Derma Am & Infaq');
   const [partyName, setPartyName] = useState('');
   const [partyEmail, setPartyEmail] = useState('');
   const [description, setDescription] = useState('');
@@ -79,7 +80,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
       setType('masuk');
       setDate(today);
       setTime(nowTime);
-      setCategory('Tabung Jumaat');
+      setCategory('Derma Am & Infaq');
       setPartyName('');
       setPartyEmail('');
       setDescription('');

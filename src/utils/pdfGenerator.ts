@@ -45,7 +45,7 @@ export function buildReceiptPdf(tx: Transaction): GeneratedPdfResult {
   doc.setFontSize(9.5);
   doc.text(MASJID_INFO.address, 18, 23);
   doc.text(
-    `No. Pendaftaran: ${MASJID_INFO.registrationNo}  |  Tel: ${MASJID_INFO.phone}  |  ${MASJID_INFO.email}`,
+    `Tel: ${MASJID_INFO.phone}  |  E-mel: ${MASJID_INFO.email}`,
     18,
     29
   );
@@ -221,7 +221,7 @@ export function buildMonthlyReportPdf(
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9.5);
   doc.text(
-    `Tempoh Penyata: ${periodLabel}  |  No. Pendaftaran: ${MASJID_INFO.registrationNo}`,
+    `Tempoh Penyata: ${periodLabel}  |  ${MASJID_INFO.name}`,
     16,
     22.5
   );

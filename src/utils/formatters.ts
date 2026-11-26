@@ -3,9 +3,8 @@ import { Transaction } from '../types/finance';
 export const MASJID_INFO = {
   name: 'Masjid Muhsinin',
   subtitle: 'Jawatankuasa Pengurusan Kewangan Kariah',
-  address: 'Jalan Muhsinin Utama, Taman Muhsinin, 43000 Kajang, Selangor',
-  registrationNo: 'JAIS/KJG/MSJ-0148',
-  phone: '03-8736 4412',
+  address: 'Kampung Kelubi, Pasir Puteh, Kelantan',
+  phone: '09-786 4412',
   email: 'kewangan@masjidmuhsinin.org.my',
   bankName: 'Bank Islam Malaysia Berhad',
   accountNo: '1202-9010-0845-21',

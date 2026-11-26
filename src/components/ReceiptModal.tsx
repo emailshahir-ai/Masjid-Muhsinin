@@ -175,7 +175,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
                   {MASJID_INFO.address}
                 </p>
                 <p className="mt-1 text-xs text-slate-500">
-                  No. Daftar {MASJID_INFO.registrationNo} · Tel {MASJID_INFO.phone}
+                  Tel {MASJID_INFO.phone} · {MASJID_INFO.email}
                 </p>
               </div>
             </div>

@@ -114,7 +114,7 @@ export const KariahPortalView: React.FC<KariahPortalViewProps> = ({
         <div className="absolute inset-0 flex flex-col justify-between p-6 sm:p-8 lg:p-10">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-200">
             <span>
-              {MASJID_INFO.subtitle} · {MASJID_INFO.registrationNo}
+              {MASJID_INFO.subtitle} · {MASJID_INFO.address}
             </span>
             <span className="font-mono tabular-nums text-slate-300">
               {connection.spreadsheetId

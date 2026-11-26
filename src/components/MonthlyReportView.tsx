@@ -201,8 +201,7 @@ export const MonthlyReportView: React.FC<MonthlyReportViewProps> = ({
                 Penyata Kewangan {formatMonthKeyLabel(effectiveMonth)}
               </h2>
               <p className="mt-1 text-xs text-slate-500">
-                {MASJID_INFO.name} · {MASJID_INFO.address} · No. Daftar{' '}
-                {MASJID_INFO.registrationNo}
+                {MASJID_INFO.name} · {MASJID_INFO.address}
               </p>
             </div>
             <div className="text-left sm:text-right">

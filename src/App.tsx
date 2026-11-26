@@ -375,7 +375,7 @@ export default function App() {
       <div style="font-family: Arial, sans-serif; color: #0f172a; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
         <div style="background-color: #065f46; color: #ffffff; padding: 20px 24px;">
           <h2 style="margin: 0; font-size: 18px;">${MASJID_INFO.name}</h2>
-          <p style="margin: 4px 0 0; font-size: 12px; opacity: 0.9;">Notifikasi Automatik Transaksi Kewangan · ${MASJID_INFO.registrationNo}</p>
+          <p style="margin: 4px 0 0; font-size: 12px; opacity: 0.9;">Notifikasi Automatik Transaksi Kewangan · ${MASJID_INFO.address}</p>
         </div>
         <div style="padding: 24px;">
           <p style="margin: 0 0 14px; font-size: 14px;">Assalamualaikum warahmatullahi wabarakatuh,</p>
@@ -1428,7 +1428,7 @@ export default function App() {
               {MASJID_INFO.name} · {MASJID_INFO.address}
             </span>
             <span>
-              No. Daftar {MASJID_INFO.registrationNo} · {MASJID_INFO.phone}
+              Tel {MASJID_INFO.phone} · {MASJID_INFO.email}
             </span>
           </div>
         </footer>

@@ -119,7 +119,7 @@ export const KariahPortalView: React.FC<KariahPortalViewProps> = ({
             <span className="font-mono tabular-nums text-slate-300">
               {connection.spreadsheetId
                 ? `Disegerak Google Sheets · ${connection.lastSyncedAt ? formatTimestampMY(connection.lastSyncedAt) : 'Aktif'}`
-                : 'Paparan Masa Nyata Kariah · Sedia Disambung Google Sheets'}
+                : 'Paparan Masa Nyata · Sedia Disambung Google Sheets'}
             </span>
           </div>
 
@@ -133,7 +133,7 @@ export const KariahPortalView: React.FC<KariahPortalViewProps> = ({
               </div>
               <p className="mt-2.5 max-w-xl text-sm leading-relaxed text-slate-200">
                 Semakan terbuka dana infaq, kutipan derma, dan agihan perbelanjaan
-                Masjid Muhsinin untuk rujukan telus seluruh ahli kariah.
+                Masjid Muhsinin untuk rujukan telus orang ramai.
               </p>
             </div>
 
@@ -217,7 +217,7 @@ export const KariahPortalView: React.FC<KariahPortalViewProps> = ({
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
               <h2 className="text-base font-semibold text-slate-900">
-                Semakan Pantas Resit & Dana Kariah
+                Semakan Pantas Resit & Dana
               </h2>
               <p className="mt-0.5 text-xs text-slate-500">
                 Masukkan nombor resit (contoh: MM-2026-0010), nama penderma, atau jenis tabung
@@ -311,7 +311,7 @@ export const KariahPortalView: React.FC<KariahPortalViewProps> = ({
                   03. Resit & Laporan PDF
                 </div>
                 <p className="mt-1 text-xs leading-relaxed text-slate-500">
-                  Ahli kariah boleh menyemak resit rasmi dan memuat turun penyata
+                  Orang ramai boleh menyemak resit rasmi dan memuat turun penyata
                   bulanan pada bila-bila masa.
                 </p>
               </div>

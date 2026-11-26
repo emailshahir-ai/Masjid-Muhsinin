@@ -512,7 +512,7 @@ export const MonthlyReportView: React.FC<MonthlyReportViewProps> = ({
             <div>
               <div className="h-10 border-b border-slate-300" />
               <p className="mt-2 text-xs font-semibold text-slate-900">
-                Disemak Oleh: Juruaudit Dalaman Kariah
+                Disemak Oleh: Juruaudit Dalaman
               </p>
               <p className="text-xs text-slate-500">{MASJID_INFO.name}</p>
             </div>

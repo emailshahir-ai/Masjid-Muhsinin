@@ -2,8 +2,8 @@ import { Transaction } from '../types/finance';
 
 export const MASJID_INFO = {
   name: 'Masjid Muhsinin',
-  subtitle: 'Jawatankuasa Pengurusan Kewangan Kariah',
-  address: 'Kampung Kelubi, Pasir Puteh, Kelantan',
+  subtitle: 'Jawatankuasa Pengurusan Kewangan',
+  address: 'Sekolah Kebangsaan Kamil 2, 16800 Pasir Puteh, Kelantan',
   phone: '09-786 4412',
   email: 'kewangan@masjidmuhsinin.org.my',
   bankName: 'Bank Islam Malaysia Berhad',

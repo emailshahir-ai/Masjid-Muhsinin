@@ -112,8 +112,8 @@ const NAV_ITEMS: {
 }[] = [
   {
     id: 'portal',
-    label: 'Portal Kariah',
-    breadcrumb: 'Portal Semakan Dana Kariah',
+    label: 'Portal Utama',
+    breadcrumb: 'Portal Semakan Dana',
     icon: LayoutDashboard,
   },
   {

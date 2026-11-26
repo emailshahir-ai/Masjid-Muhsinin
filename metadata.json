@@ -1,6 +1,6 @@
 {
   "name": "Sistem Kewangan Masjid Muhsinin",
-  "description": "Sistem pengurusan kewangan masjid yang telus dan sistematik untuk Masjid Muhsinin dengan paparan baki masa nyata kariah, laporan PDF bulanan, resit penderma, notifikasi automatik, serta integrasi Google Sheets dan storan awan Google Drive.",
+  "description": "Sistem pengurusan kewangan masjid yang telus dan sistematik untuk Masjid Muhsinin dengan paparan baki masa nyata, laporan PDF bulanan, resit penderma, notifikasi automatik, serta integrasi Google Sheets dan storan awan Google Drive.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

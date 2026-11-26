@@ -175,7 +175,7 @@ export function buildReceiptPdf(tx: Transaction): GeneratedPdfResult {
   doc.setFontSize(8);
   doc.setTextColor(100, 116, 139);
   doc.text(
-    'Dokumen ini dijana secara elektronik melalui Sistem Kewangan Masjid Muhsinin dan sah untuk semakan kariah.',
+    'Dokumen ini dijana secara elektronik melalui Sistem Kewangan Masjid Muhsinin dan sah untuk semakan rasmi.',
     105,
     282,
     { align: 'center' }
@@ -390,7 +390,7 @@ export function buildMonthlyReportPdf(
   doc.setFontSize(8.2);
   doc.setTextColor(71, 85, 105);
   doc.text('Bendahari Kehormat', 16, sigY + 10);
-  doc.text('Juruaudit Dalaman Kariah', 79, sigY + 10);
+  doc.text('Juruaudit Dalaman', 79, sigY + 10);
   doc.text('Pengerusi Masjid Muhsinin', 142, sigY + 10);
 
   // Page numbering footer

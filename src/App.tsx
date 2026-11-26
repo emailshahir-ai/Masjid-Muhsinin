@@ -5,6 +5,7 @@ import {
   Cloud,
   FileBarChart2,
   LayoutDashboard,
+  LogOut,
   Menu,
   Plus,
   Receipt,
@@ -59,6 +60,10 @@ import { TransactionModal } from './components/TransactionModal';
 import { ReceiptModal } from './components/ReceiptModal';
 import { ConfirmationModal } from './components/ConfirmationModal';
 import { PdfPreviewModal } from './components/PdfPreviewModal';
+import LoginGate, {
+  isAuthenticated,
+  clearAuth,
+} from './components/LoginGate';
 
 const STORAGE_KEYS = {
   transactions: 'masjid_muhsinin_transactions_v1',
@@ -149,6 +154,7 @@ const NAV_ITEMS: {
 ];
 
 export default function App() {
+  const [unlocked, setUnlocked] = useState(isAuthenticated());
   const [activeTab, setActiveTab] = useState<ActiveTab>('portal');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [emblemFailed, setEmblemFailed] = useState(false);
@@ -1163,6 +1169,10 @@ export default function App() {
   const activeNavObj =
     NAV_ITEMS.find((item) => item.id === activeTab) || NAV_ITEMS[0];
 
+  if (!unlocked) {
+    return <LoginGate onUnlock={() => setUnlocked(true)} />;
+  }
+
   return (
     <div className="flex min-h-screen bg-slate-50 text-slate-900">
       {/* Mobile Sidebar Backdrop */}
@@ -1262,23 +1272,37 @@ export default function App() {
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab('awan');
-              setMobileMenuOpen(false);
-            }}
-            className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-100"
-          >
-            <div className="truncate font-medium text-slate-900">
-              {user ? user.displayName || user.email : 'Sambung Google Sheets'}
-            </div>
-            <div className="mt-0.5 truncate text-[11px] text-slate-500">
-              {connection.spreadsheetId
-                ? `Sheets: ${connection.spreadsheetTitle}`
-                : 'Klik untuk storan awan & Sheets'}
-            </div>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab('awan');
+                setMobileMenuOpen(false);
+              }}
+              className="flex-1 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-100"
+            >
+              <div className="truncate font-medium text-slate-900">
+                {user ? user.displayName || user.email : 'Sambung Google Sheets'}
+              </div>
+              <div className="mt-0.5 truncate text-[11px] text-slate-500">
+                {connection.spreadsheetId
+                  ? `Sheets: ${connection.spreadsheetTitle}`
+                  : 'Klik untuk storan awan & Sheets'}
+              </div>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                clearAuth();
+                setUnlocked(false);
+              }}
+              className="shrink-0 rounded-lg border border-slate-200 bg-white p-2 text-slate-500 transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+              aria-label="Log keluar sistem"
+              title="Log keluar"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </aside>
 

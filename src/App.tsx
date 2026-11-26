@@ -5,7 +5,6 @@ import {
   Cloud,
   FileBarChart2,
   LayoutDashboard,
-  LogOut,
   Menu,
   Plus,
   Receipt,
@@ -60,8 +59,6 @@ import { TransactionModal } from './components/TransactionModal';
 import { ReceiptModal } from './components/ReceiptModal';
 import { ConfirmationModal } from './components/ConfirmationModal';
 import { PdfPreviewModal } from './components/PdfPreviewModal';
-import { LoginScreen } from './components/LoginScreen';
-import { AuthMode, fetchAuthStatus, logoutAdmin } from './services/appAuth';
 
 const STORAGE_KEYS = {
   transactions: 'masjid_muhsinin_transactions_v1',
@@ -171,50 +168,12 @@ export default function App() {
     loadStored(STORAGE_KEYS.connection, DEFAULT_CONNECTION)
   );
 
-  // Admin session auth state (Bearer token strictly in memory via appAuth.ts)
-  const [authLoading, setAuthLoading] = useState(true);
-  const [authMode, setAuthMode] = useState<AuthMode>('setup_required');
-  const [isAdminAuthed, setIsAdminAuthed] = useState(false);
-
   // Google Workspace auth state (token strictly in-memory via googleAuth.ts)
   const [user, setUser] = useState<User | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isWorkspaceBusy, setIsWorkspaceBusy] = useState(false);
   const [archiveFiles, setArchiveFiles] = useState<CloudFileItem[]>([]);
   const [autoSyncEnabled, setAutoSyncEnabled] = useState(false);
-
-  useEffect(() => {
-    let active = true;
-    fetchAuthStatus()
-      .then((status) => {
-        if (!active) return;
-        setAuthMode(status.mode);
-        setIsAdminAuthed(status.authenticated);
-      })
-      .catch(() => {
-        if (!active) return;
-        setAuthMode('env');
-        setIsAdminAuthed(false);
-      })
-      .finally(() => {
-        if (active) setAuthLoading(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  const handleAdminLogout = async () => {
-    await logoutAdmin();
-    setIsAdminAuthed(false);
-    setActiveTab('portal');
-    try {
-      const status = await fetchAuthStatus();
-      setAuthMode(status.mode);
-    } catch {
-      setAuthMode('claimed');
-    }
-  };
 
   // Modals & Toasts
   const [txModalOpen, setTxModalOpen] = useState(false);
@@ -1204,40 +1163,6 @@ export default function App() {
   const activeNavObj =
     NAV_ITEMS.find((item) => item.id === activeTab) || NAV_ITEMS[0];
 
-  if (authLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-        <div className="text-center">
-          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-emerald-800" />
-          <p className="mt-3 text-xs font-medium text-slate-600">
-            Menyemak status akses Masjid Muhsinin...
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!isAdminAuthed) {
-    return (
-      <LoginScreen
-        mode={authMode}
-        onAuthenticated={async () => {
-          setIsAdminAuthed(true);
-          try {
-            const status = await fetchAuthStatus();
-            setAuthMode(status.mode);
-          } catch {
-            // keep authenticated state
-          }
-          showToast(
-            'Log masuk berjaya',
-            'Selamat datang ke Sistem Kewangan Masjid Muhsinin.'
-          );
-        }}
-      />
-    );
-  }
-
   return (
     <div className="flex min-h-screen bg-slate-50 text-slate-900">
       {/* Mobile Sidebar Backdrop */}
@@ -1354,14 +1279,6 @@ export default function App() {
                 : 'Klik untuk storan awan & Sheets'}
             </div>
           </button>
-          <button
-            type="button"
-            onClick={handleAdminLogout}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-red-700"
-          >
-            <LogOut className="h-3.5 w-3.5" />
-            Log Keluar
-          </button>
         </div>
       </aside>
 
@@ -1427,7 +1344,6 @@ export default function App() {
           {activeTab === 'buku-tunai' && (
             <LedgerView
               transactions={transactions}
-              canManage={isAdminAuthed}
               onAddTransaction={() => {
                 setEditingTx(null);
                 setTxModalOpen(true);
@@ -1444,7 +1360,7 @@ export default function App() {
           {activeTab === 'laporan' && (
             <MonthlyReportView
               transactions={transactions}
-              isSignedIn={isAdminAuthed && Boolean(user)}
+              isSignedIn={Boolean(user)}
               onArchiveMonthlyReport={handleArchiveMonthlyReportToDrive}
               onPreviewPdf={(pdf) => setPreviewPdf(pdf)}
             />
@@ -1458,7 +1374,7 @@ export default function App() {
             />
           )}
 
-          {isAdminAuthed && activeTab === 'notifikasi' && (
+          {activeTab === 'notifikasi' && (
             <NotificationsView
               notifications={notifications}
               settings={notifSettings}
@@ -1473,7 +1389,7 @@ export default function App() {
             />
           )}
 
-          {isAdminAuthed && activeTab === 'awan' && (
+          {activeTab === 'awan' && (
             <CloudSyncView
               user={user}
               isLoggingIn={isLoggingIn}
@@ -1541,7 +1457,7 @@ export default function App() {
       {/* Official Receipt / Voucher Preview & Print Modal */}
       <ReceiptModal
         transaction={selectedReceiptTx}
-        isSignedIn={isAdminAuthed && Boolean(user)}
+        isSignedIn={Boolean(user)}
         onClose={() => setSelectedReceiptTx(null)}
         onArchiveToDrive={handleArchiveReceiptToDrive}
         onSendReceiptEmail={handleSendReceiptEmail}

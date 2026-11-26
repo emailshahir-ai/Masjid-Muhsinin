@@ -5,7 +5,6 @@ import {
   Cloud,
   FileBarChart2,
   LayoutDashboard,
-  Lock,
   LogOut,
   Menu,
   Plus,
@@ -176,7 +175,6 @@ export default function App() {
   const [authLoading, setAuthLoading] = useState(true);
   const [authMode, setAuthMode] = useState<AuthMode>('setup_required');
   const [isAdminAuthed, setIsAdminAuthed] = useState(false);
-  const [readOnlyVisitor, setReadOnlyVisitor] = useState(false);
 
   // Google Workspace auth state (token strictly in-memory via googleAuth.ts)
   const [user, setUser] = useState<User | null>(null);
@@ -209,7 +207,6 @@ export default function App() {
   const handleAdminLogout = async () => {
     await logoutAdmin();
     setIsAdminAuthed(false);
-    setReadOnlyVisitor(false);
     setActiveTab('portal');
     try {
       const status = await fetchAuthStatus();
@@ -1204,18 +1201,8 @@ export default function App() {
     });
   };
 
-  const visibleNavItems = useMemo(
-    () =>
-      isAdminAuthed
-        ? NAV_ITEMS
-        : NAV_ITEMS.filter(
-            (item) => item.id !== 'notifikasi' && item.id !== 'awan'
-          ),
-    [isAdminAuthed]
-  );
-
   const activeNavObj =
-    visibleNavItems.find((item) => item.id === activeTab) || visibleNavItems[0];
+    NAV_ITEMS.find((item) => item.id === activeTab) || NAV_ITEMS[0];
 
   if (authLoading) {
     return (
@@ -1230,13 +1217,12 @@ export default function App() {
     );
   }
 
-  if (!isAdminAuthed && !readOnlyVisitor) {
+  if (!isAdminAuthed) {
     return (
       <LoginScreen
         mode={authMode}
         onAuthenticated={async () => {
           setIsAdminAuthed(true);
-          setReadOnlyVisitor(false);
           try {
             const status = await fetchAuthStatus();
             setAuthMode(status.mode);
@@ -1244,13 +1230,9 @@ export default function App() {
             // keep authenticated state
           }
           showToast(
-            'Log masuk pentadbir berjaya',
-            'Akses penuh Sistem Kewangan Masjid Muhsinin telah diaktifkan.'
+            'Log masuk berjaya',
+            'Selamat datang ke Sistem Kewangan Masjid Muhsinin.'
           );
-        }}
-        onContinueReadOnly={() => {
-          setReadOnlyVisitor(true);
-          setActiveTab('portal');
         }}
       />
     );
@@ -1311,7 +1293,7 @@ export default function App() {
 
         {/* Navigation Links */}
         <nav className="flex-1 space-y-1 px-3 py-4" aria-label="Menu utama">
-          {visibleNavItems.map((item) => {
+          {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
             return (
@@ -1355,46 +1337,31 @@ export default function App() {
             </div>
           </div>
 
-          {isAdminAuthed ? (
-            <>
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveTab('awan');
-                  setMobileMenuOpen(false);
-                }}
-                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-100"
-              >
-                <div className="truncate font-medium text-slate-900">
-                  {user
-                    ? user.displayName || user.email
-                    : 'Sambung Google Sheets'}
-                </div>
-                <div className="mt-0.5 truncate text-[11px] text-slate-500">
-                  {connection.spreadsheetId
-                    ? `Sheets: ${connection.spreadsheetTitle}`
-                    : 'Klik untuk storan awan & Sheets'}
-                </div>
-              </button>
-              <button
-                type="button"
-                onClick={handleAdminLogout}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-red-700"
-              >
-                <LogOut className="h-3.5 w-3.5" />
-                Log Keluar Pentadbir
-              </button>
-            </>
-          ) : (
-            <button
-              type="button"
-              onClick={() => setReadOnlyVisitor(false)}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-800 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-emerald-900"
-            >
-              <Lock className="h-3.5 w-3.5" />
-              Log Masuk Pentadbir
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab('awan');
+              setMobileMenuOpen(false);
+            }}
+            className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-100"
+          >
+            <div className="truncate font-medium text-slate-900">
+              {user ? user.displayName || user.email : 'Sambung Google Sheets'}
+            </div>
+            <div className="mt-0.5 truncate text-[11px] text-slate-500">
+              {connection.spreadsheetId
+                ? `Sheets: ${connection.spreadsheetTitle}`
+                : 'Klik untuk storan awan & Sheets'}
+            </div>
+          </button>
+          <button
+            type="button"
+            onClick={handleAdminLogout}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-red-700"
+          >
+            <LogOut className="h-3.5 w-3.5" />
+            Log Keluar
+          </button>
         </div>
       </aside>
 
@@ -1428,28 +1395,17 @@ export default function App() {
           </div>
 
           <div className="flex shrink-0 items-center gap-3">
-            {isAdminAuthed ? (
-              <button
-                type="button"
-                onClick={() => {
-                  setEditingTx(null);
-                  setTxModalOpen(true);
-                }}
-                className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg bg-emerald-800 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-emerald-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"
-              >
-                <Plus className="h-4 w-4" />
-                Rekod Transaksi
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setReadOnlyVisitor(false)}
-                className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg bg-emerald-800 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-emerald-900"
-              >
-                <Lock className="h-3.5 w-3.5" />
-                Log Masuk Pentadbir
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => {
+                setEditingTx(null);
+                setTxModalOpen(true);
+              }}
+              className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg bg-emerald-800 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-emerald-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"
+            >
+              <Plus className="h-4 w-4" />
+              Rekod Transaksi
+            </button>
           </div>
         </header>
 
@@ -1462,10 +1418,6 @@ export default function App() {
               onSelectReceipt={(tx) => setSelectedReceiptTx(tx)}
               onNavigate={(tab) => setActiveTab(tab)}
               onOpenNewTransaction={() => {
-                if (!isAdminAuthed) {
-                  setReadOnlyVisitor(false);
-                  return;
-                }
                 setEditingTx(null);
                 setTxModalOpen(true);
               }}

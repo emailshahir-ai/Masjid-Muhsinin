@@ -103,13 +103,14 @@ export const KariahPortalView: React.FC<KariahPortalViewProps> = ({
             alt="Masjid Muhsinin"
             referrerPolicy="no-referrer"
             onError={() => setBannerFailed(true)}
-            className="h-[290px] w-full object-cover object-[center_35%] sm:h-[310px]"
+            className="h-[290px] w-full object-cover object-[center_35%] brightness-110 contrast-[1.03] sm:h-[310px]"
           />
         ) : (
           <div className="h-[290px] w-full bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-800 sm:h-[310px]" />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/75 to-slate-950/35" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-950/35 to-slate-950/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-transparent to-slate-950/20" />
 
         <div className="absolute inset-0 flex flex-col justify-between p-6 sm:p-8 lg:p-10">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-200">
